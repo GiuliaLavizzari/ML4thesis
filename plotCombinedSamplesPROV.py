@@ -1,3 +1,7 @@
+#python plotCombinedSamplesPROV.py model_name number_of_dimensions
+# models on hercules: /gwpool/users/glavizzari/Downloads/ML4Anomalies-main/TRAINING
+# ntuples on hercules: /gwpool/users/glavizzari/Downloads
+
 import tensorflow as tf
 
 from sklearn.model_selection import train_test_split
