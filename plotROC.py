@@ -1,3 +1,5 @@
+# needs the csv files created by plotCombinedSamples.py
+
 import tensorflow as tf
 
 import sys
