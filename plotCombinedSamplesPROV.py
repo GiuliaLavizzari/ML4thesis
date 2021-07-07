@@ -2,6 +2,7 @@ import tensorflow as tf
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 import ROOT
 import sys
 import numpy as np
@@ -9,7 +10,7 @@ import pandas as pd
 
 from sklearn.metrics import accuracy_score
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from matplotlib import patches as mpatches
 
@@ -18,8 +19,10 @@ from matplotlib import patches as mpatches
 #ROOT.ROOT.EnableImplicitMT()
 
 class LossPerBatch(tf.keras.callbacks.Callback):
+    
     def __init__(self,**kwargs):
         self.eval_loss = []
+    
     def on_predict_begin(self, logs=None):
         keys = list(logs.keys())
         self.eval_loss = []
@@ -39,7 +42,7 @@ class LossPerBatch(tf.keras.callbacks.Callback):
         )
 
 cW = 0.3 #0.3
-cutLoss = 0.00004
+#cutLoss = 0.00004
 nEntries = 100000000000000
 
 pd_variables = ['deltaetajj', 'deltaphijj', 'etaj1', 'etaj2', 'etal1', 'etal2',
@@ -108,9 +111,9 @@ All_test = np.concatenate((All_BSM_test,X_test))
 weight_test = np.concatenate((w_test, wx_test))
 #weight_test = np.abs(weight_test)
 
-
+#t = StandardScaler()
 t = MinMaxScaler()
-t.fit(X_train)
+t.fit(X_train) 
 X_train = t.transform(X_train)
 X_test=t.transform(X_test)
 All_test = t.transform(All_test)
@@ -161,7 +164,7 @@ ax.patch.set_facecolor("w")
 #plt.savefig('PCSloss.png', bbox_inches='tight')
 plt.close()
 
-
+#t = StandardScaler()
 t = MinMaxScaler()
 t.fit(SM)
 SM = t.transform(SM)
@@ -208,7 +211,7 @@ for i in range(nrows):
             axes[i][j].scatter(diff[0:,nvar], All_test[0:,nvar], s=4, color="midnightblue", alpha=0.3)
             axes[i][j].scatter(diffSM[0:,nvar], X_test[0:,nvar], s=4, color="crimson", alpha=0.3)
             axes[i][j].set_xlabel(pd_variables[nvar])   
-            axes[i][j].set_xlim(-1., 1.)
+            axes[i][j].set_xlim(-1., 1.8) # -1., 1. per min max scaler
             axes[i][j].set_ylim(-0.3, 1.3)    
             nvar=nvar+1
 fig.patch.set_facecolor("w")
