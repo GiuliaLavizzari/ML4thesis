@@ -43,8 +43,15 @@ class LossPerBatch(tf.keras.callbacks.Callback):
 
 modelN = sys.argv[1]
 DIM = sys.argv[2]
-vae = tf.keras.models.load_model("myvae"+str(modelN)+"_denselayers_latentdim"+str(DIM)+"_epoch300_batchsize32_log_eventFiltered")
-enc = tf.keras.models.load_model("myvae"+str(modelN)+"_denselayers_latentdim"+str(DIM)+"_epoch300_batchsize32_log_eventFiltered")
+vaename = "myvae"+str(modelN)+"_denselayers_latentdim"+str(DIM)+"_epoch100_batchsize32_log_eventFiltered"
+encname = "myenc"+str(modelN)+"_denselayers_latentdim"+str(DIM)+"_epoch100_batchsize32_log_eventFiltered"
+
+vae = tf.keras.models.load_model(vaename)
+enc = tf.keras.models.load_model(encname)
+
+print (vaename)
+print (encname)
+
 
 cW = 0.3 #0.3
 nEntries = 500000000000000
@@ -102,8 +109,8 @@ w_train, w_test,_,_ = train_test_split(weights, weights,test_size=0.2, random_st
 All_test = np.concatenate((All_BSM_test,X_test))
 weight_test = np.concatenate((w_test, wx_test))
 
-t = StandardScaler()
-#t = MinMaxScaler()
+#t = StandardScaler()
+t = MinMaxScaler()
 t.fit(X_train) 
 X_train = t.transform(X_train)
 X_test=t.transform(X_test)
@@ -176,8 +183,8 @@ fig.suptitle("input vs output ALL(SM+BSM): model "+str(modelN)+", dim "+str(DIM)
 for i in range(nrows):
     for j in range(ncols):
         if nvar < len(pd_variables)-1: 
-            axes[i][j].hist(All_test[0:,nvar],bins=500, range=[0.05,0.95], weights =weight_test, density=1, histtype="step", color="orange", alpha=0.6)
-            axes[i][j].hist(out[0:,nvar],bins=500, range=[0.05,0.95], weights =weight_test, density=1, histtype="step", color="teal", alpha=0.6)
+            axes[i][j].hist(All_test[0:,nvar],bins=500, range=[-0.1, 1.1], weights =weight_test, density=1, histtype="step", color="orange", alpha=0.6)
+            axes[i][j].hist(out[0:,nvar],bins=500, range=[-0.1, 1.1], weights =weight_test, density=1, histtype="step", color="teal", alpha=0.6)
             axes[i][j].set_xlabel(pd_variables[nvar])  
             nvar=nvar+1
 fig.patch.set_facecolor("w")
@@ -196,8 +203,8 @@ fig.suptitle("input vs output SM: model "+str(modelN)+", dim "+str(DIM))
 for i in range(nrows):
     for j in range(ncols):
         if nvar < len(pd_variables)-1: 
-            axes[i][j].hist(X_test[0:,nvar],bins=500, range=[0.05,0.95], weights =wx_test, density=1, histtype="step", color="orange", alpha=0.6)
-            axes[i][j].hist(out_SM[0:,nvar],bins=500, range=[0.05,0.95], weights =wx_test, density=1, histtype="step", color="teal", alpha=0.6)
+            axes[i][j].hist(X_test[0:,nvar],bins=500, range=[-0.1, 1.1], weights =wx_test, density=1, histtype="step", color="orange", alpha=0.6)
+            axes[i][j].hist(out_SM[0:,nvar],bins=500, range=[-0.1, 1.1], weights =wx_test, density=1, histtype="step", color="teal", alpha=0.6)
             axes[i][j].set_xlabel(pd_variables[nvar])  
             nvar=nvar+1
 fig.patch.set_facecolor("w")
@@ -272,8 +279,8 @@ fig.suptitle("latent variables: model "+str(modelN)+", dim "+str(DIM))
 for i in range(nrows):
     for j in range(ncols):
         if nvar < len(feature_variables): 
-            axes[i][j].hist(latentALL[0:,nvar],bins=500, range=[-0.2,0.2], weights =weight_test, density=1, histtype="step", color="midnightblue", alpha=0.6)
-            axes[i][j].hist(latentSM[0:,nvar],bins=500, range=[-0.2,0.2], weights =wx_test, density=1, histtype="step", color="crimson", alpha=0.6)
+            axes[i][j].hist(latentALL[0:,nvar],bins=500, range=[-1.,1.], weights =weight_test, density=1, histtype="step", color="midnightblue", alpha=0.6)
+            axes[i][j].hist(latentSM[0:,nvar],bins=500, range=[-1.,1.], weights =wx_test, density=1, histtype="step", color="crimson", alpha=0.6)
             axes[i][j].set_xlabel(feature_variables[nvar])  
             nvar=nvar+1
 fig.patch.set_facecolor("w")
