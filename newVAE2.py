@@ -115,7 +115,7 @@ class VariationalAutoEncoder(tf.keras.Model):
         # Add KL divergence regularization loss.
         kl_loss = - 0.5 * tf.reduce_mean(
             z_log_var - tf.square(z_mean) - tf.exp(z_log_var) + 1)
-        kl_loss= kl_loss/100000000.
+        kl_loss= kl_loss/10000.
         self.add_loss(kl_loss)
         return reconstructed
 
