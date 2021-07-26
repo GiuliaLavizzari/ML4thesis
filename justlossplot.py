@@ -92,7 +92,7 @@ weightsSM = luminosity*weightsSM*cfSM
 weightsLIN = luminosity*weightsLIN*cfLIN #weights are not yet multiplied by cW
 weightsQUAD = luminosity*weightsQUAD*cfQUAD #weights are not yet multiplied by cW
 
-sigma, cut, signal, bkg = sigmaComputation (0.3, loss, weights, lossLIN, weightsLIN, lossQUAD, weightsQUAD)
+sigma, cut, signal, bkg, soverb = sigmaComputation (0.3, loss, weights, lossLIN, weightsLIN, lossQUAD, weightsQUAD)
 sqrtbkg = np.sqrt(bkg)
 print (sigma)
 print ("\nlen sigma", len(sigma))
