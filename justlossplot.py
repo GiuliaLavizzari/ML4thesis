@@ -78,10 +78,15 @@ ax.patch.set_facecolor("w")
 
 luminosity = 1000.*350. #luminosity expected in 1/pb
 
-cf = 22500000./len(weights) #first number is the length of the original ntuple
-cfSM = 22500000./len(weightsSM) 
-cfLIN = 22500000/len(weightsLIN)
-cfQUAD = 22232790/len(weightsQUAD)
+cf = 8337.071/np.sum(weights) #first number is the sum of all weights in the original ntuple
+cfSM = 8337.071/np.sum(weightsSM)
+cfLIN = 251.5229/np.sum(weightsLIN)
+cfQUAD = 5835.7227/np.sum(weightsQUAD)
+
+#cf = 22500000./len(weights) #first number is the length of the original ntuple
+#cfSM = 22500000./len(weightsSM) 
+#cfLIN = 22500000/len(weightsLIN)
+#cfQUAD = 22232790/len(weightsQUAD)
 print ("cf", cf)
 print ("cfSM", cfSM)
 print ("cfLIN", cfLIN)
@@ -121,6 +126,15 @@ ax.set_xlabel("cut on loss function")
 ax.set_ylabel("S/sqrt(B)")
 plt.savefig("./WandL/significanceTEST.png", bbox_inches='tight')
 #plt.close()
+
+ax = plt.figure(figsize=(7,5), dpi=100, facecolor="w").add_subplot(111)
+plt.suptitle("Signal over Bkg, model "+str(modelN)+" dim "+str(DIM))
+ax.xaxis.grid(True, which="major")
+ax.yaxis.grid(True, which="major")
+ax.plot(cut, soverb, '-', linewidth = 1.5, color="orange", alpha=1.)
+ax.set_xlabel("cut on loss function")
+ax.set_ylabel("S/B")
+plt.savefig("./WandL/signaloverbkgTEST.png", bbox_inches='tight')
 
 
 plt.show()
