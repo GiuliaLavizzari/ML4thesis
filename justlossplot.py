@@ -82,7 +82,6 @@ cf = 8337.071/np.sum(weights) #first number is the sum of all weights in the ori
 cfSM = 8337.071/np.sum(weightsSM)
 cfLIN = 251.5229/np.sum(weightsLIN)
 cfQUAD = 5835.7227/np.sum(weightsQUAD)
-
 #cf = 22500000./len(weights) #first number is the length of the original ntuple
 #cfSM = 22500000./len(weightsSM) 
 #cfLIN = 22500000/len(weightsLIN)
