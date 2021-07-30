@@ -5,7 +5,7 @@ import sys
 import numpy as np
 import matplotlib
 from array import array
-#matplotlib.use('Agg')
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from sklearn.metrics import auc
 #from sklearn.metrics import roc_auc_score
