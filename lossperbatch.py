@@ -43,7 +43,6 @@ class LossPerBatch(tf.keras.callbacks.Callback):
 
 modelN = sys.argv[1]
 DIM = sys.argv[2]
-op = cW
 EPOCHS = 250
 vaename = "/gwpool/users/glavizzari/Downloads/ML4Anomalies-main/myVAE/finalvae1_denselayers_latentdim"+str(DIM)+"_epoch"+str(EPOCHS)+"_batchsize32_log_eventFiltered"
 #vaename = "finalvae"+str(modelN)+"_denselayers_latentdim"+str(DIM)+"_epoch"+str(EPOCHS)+"_batchsize32_log_eventFiltered"
@@ -53,7 +52,7 @@ vaename = "/gwpool/users/glavizzari/Downloads/ML4Anomalies-main/myVAE/finalvae1_
 vae = tf.keras.models.load_model(vaename)
 #enc = tf.keras.models.load_model(encname)
 
-print (vaename)
+#print (vaename)
 #print (encname)
 
 
@@ -68,45 +67,29 @@ pd_variables = ['deltaetajj', 'deltaphijj', 'etaj1', 'etaj2', 'etal1', 'etal2',
 
 dfAll = ROOT.RDataFrame("SSWW_SM","/gwpool/users/glavizzari/Downloads/ntuple_SSWW_SM.root")
 df = dfAll.Filter("ptj1 > 30 && ptj2 >30 && deltaetajj>2 && mjj>200")
-dfBSMAll_QUAD = ROOT.RDataFrame("SSWW_"+str(op)+"_QU","/gwpool/users/glavizzari/Downloads/ntuplesBSM/ntuple_SSWW_"+str(op)+"_QU.root")
-dfBSM_QUAD = dfBSMAll_QUAD.Filter("ptj1 > 30 && ptj2 >30 && deltaetajj>2 && mjj>200")
-dfBSMAll_LIN = ROOT.RDataFrame("SSWW_"+str(op)+"_LI","/gwpool/users/glavizzari/Downloads/ntuplesBSM/ntuple_SSWW_"+str(op)+"_LI.root")
-dfBSM_LIN = dfBSMAll_LIN.Filter("ptj1 > 30 && ptj2 >30 && deltaetajj>2 && mjj>200")
 
 SM =pd.DataFrame.from_dict(df.AsNumpy(pd_variables))
-BSM_quad=pd.DataFrame.from_dict(dfBSM_QUAD.AsNumpy(pd_variables))
-BSM_lin=pd.DataFrame.from_dict(dfBSM_LIN.AsNumpy(pd_variables))
 
 nEntries = 2000000000000000
 
 SM = SM.head(nEntries)
-BSM_quad = BSM_quad.head(nEntries)
-BSM_lin = BSM_lin.head(nEntries)
 
 #using logarithm of some variables
 for vars in ['met', 'mjj', 'mll',  'ptj1', 'ptj2', 'ptl1',
        'ptl2', 'ptll']:
-    BSM_quad[vars] = BSM_quad[vars].apply(np.log10)
-    BSM_lin[vars] = BSM_lin[vars].apply(np.log10)
     SM[vars] = SM[vars].apply(np.log10)
 
 #print ("\nweights\n")
 
 weightsSM = SM["w"].to_numpy()
-weightsLIN = BSM_lin["w"].to_numpy()
-weightsQUAD = BSM_quad["w"].to_numpy()
 
 #print (weightsSM)
 #print (weightsLIN)
 #print (weightsQUAD)
 
 SM.drop('w',axis='columns', inplace=True)
-BSM_quad.drop('w',axis='columns', inplace=True)
-BSM_lin.drop('w',axis='columns', inplace=True)
 
 SM = SM.to_numpy()
-LIN = BSM_lin.to_numpy()
-QUAD = BSM_quad.to_numpy()
 
 #print (SM)
 #print (LIN)
@@ -120,8 +103,6 @@ t.fit(X_train)
 X_train = t.transform(X_train)
 X_test = t.transform(X_test)
 SM = t.transform(SM)
-LIN = t.transform(LIN)
-QUAD = t.transform(QUAD)
 
 #print (SM)
 #print (LIN)
@@ -136,32 +117,17 @@ vae.evaluate(X_test,X_test,batch_size=1,callbacks=[mylosses],verbose=0)
 mylossesSM = LossPerBatch()
 vae.evaluate(SM,SM,batch_size=1,callbacks=[mylossesSM],verbose=0)
 
-mylossesLIN = LossPerBatch()
-#vae.evaluate(LIN,LIN,batch_size=1,callbacks=[mylossesLIN],verbose=0)
-
-mylossesQUAD = LossPerBatch()
-#vae.evaluate(QUAD,QUAD,batch_size=1,callbacks=[mylossesQUAD],verbose=0)
-
-
 myloss = mylosses.eval_loss
 mylossSM = mylossesSM.eval_loss
-#mylossLIN = mylossesLIN.eval_loss
-#mylossQUAD = mylossesQUAD.eval_loss
 
 myloss = np.asarray(myloss)
 mylossSM = np.asarray(mylossSM)
-#mylossLIN = np.asarray(mylossLIN)
-#mylossQUAD = np.asarray(mylossQUAD)
 
 np.savetxt("sm"+str(modelN)+"_dim"+str(DIM)+"_lossSM_split.csv", myloss,delimiter=',')
 np.savetxt("sm"+str(modelN)+"_dim"+str(DIM)+"_lossSM_total.csv", mylossSM,delimiter=',')
-#np.savetxt(str(op)+str(modelN)+"_dim"+str(DIM)+"_lossLIN_total.csv", mylossLIN,delimiter=',')
-#np.savetxt(str(op)+str(modelN)+"_dim"+str(DIM)+"_lossQUAD_total.csv", mylossQUAD,delimiter=',')
 
 np.savetxt("sm"+str(modelN)+"_dim"+str(DIM)+"_weightsSM_split.csv", wx_test,delimiter=',')
 np.savetxt("sm"+str(modelN)+"_dim"+str(DIM)+"_weightsSM_total.csv", weightsSM,delimiter=',')
-#np.savetxt(str(op)+str(modelN)+"_dim"+str(DIM)+"_weightsLIN_total.csv", weightsLIN,delimiter=',')
-#np.savetxt(str(op)+str(modelN)+"_dim"+str(DIM)+"_weightsQUAD_total.csv", weightsQUAD,delimiter=',')
 
 '''
 ax = plt.figure(figsize=(7,5), dpi=100, facecolor="w").add_subplot(111)

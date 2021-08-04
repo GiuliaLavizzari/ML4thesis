@@ -53,7 +53,7 @@ vaename = "/gwpool/users/glavizzari/Downloads/ML4Anomalies-main/myVAE/finalvae1_
 vae = tf.keras.models.load_model(vaename)
 #enc = tf.keras.models.load_model(encname)
 
-print (vaename)
+#print (vaename)
 #print (encname)
 
 
