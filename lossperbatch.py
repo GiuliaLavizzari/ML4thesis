@@ -124,10 +124,10 @@ myloss = np.asarray(myloss)
 mylossSM = np.asarray(mylossSM)
 
 np.savetxt("sm"+str(modelN)+"_dim"+str(DIM)+"_lossSM_split.csv", myloss,delimiter=',')
-np.savetxt("sm"+str(modelN)+"_dim"+str(DIM)+"_lossSM_total.csv", mylossSM,delimiter=',')
+#np.savetxt("sm"+str(modelN)+"_dim"+str(DIM)+"_lossSM_total.csv", mylossSM,delimiter=',')
 
 np.savetxt("sm"+str(modelN)+"_dim"+str(DIM)+"_weightsSM_split.csv", wx_test,delimiter=',')
-np.savetxt("sm"+str(modelN)+"_dim"+str(DIM)+"_weightsSM_total.csv", weightsSM,delimiter=',')
+#np.savetxt("sm"+str(modelN)+"_dim"+str(DIM)+"_weightsSM_total.csv", weightsSM,delimiter=',')
 
 '''
 ax = plt.figure(figsize=(7,5), dpi=100, facecolor="w").add_subplot(111)
