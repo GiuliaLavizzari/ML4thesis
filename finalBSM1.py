@@ -40,7 +40,6 @@ def sigmaFunction(k, cW, lossSM, weightsSM, lossLIN, weightsLIN, lossQUAD, weigh
     for i in range(len(lossQUAD)):
         if lossQUAD[i] > k:
             nS = nS + weightsQUAD[i]*cW*cW
-    
     if nB == 0.:
         nB = 0.5
         nS = 0.
@@ -66,7 +65,38 @@ def sigmaComputation(start, stop, step, cW, lossSM, weightsSM, lossLIN, weightsL
             Sigma.append(sig)
             Cut.append(k)
         
-    return Sigma, Cut, Signal, Bkg    
+    return Sigma, Cut, Signal, Bkg 
+    
+    
+def sigma_max_err1(k, cW, lossSM, weightsSM, normSM, lossLIN, weightsLIN, normLIN, lossQUAD, weightsQUAD, normQUAD):
+    kB = normSM
+    kL = normLIN*cW
+    kQ = normQUAD*cW*cW   
+    # separate the proper weights from the normalization
+    weightsSM = weightsSM/normSM
+    weightsLIN = weightsLIN/normLIN
+    weightsQUAD = weightsQUAD/normQUAD
+    
+    nL = 0.
+    nQ = 0.
+    nB = 0.
+    
+    for i in range(len(lossSM)):
+        if lossSM[i] > k:
+            nB = nB + weightsSM[i]
+    for i in range(len(lossLIN)):
+        if lossLIN[i] > k:
+            nL = nL + weightsLIN[i]
+    for i in range(len(lossQUAD)):
+        if lossQUAD[i] > k:
+            nQ = nQ + weightsQUAD[i]
+    
+    sigma = abs(nL*kL + nQ*kQ)/np.sqrt(nB*kB)
+    errSigma = np.sqrt((1/abs(nB*kB))*(abs(nL)*pow(kL,2)+abs(nQ)*pow(kQ,2))*pow(np.sign(nL*kL+nQ*kQ),2)+pow((nL*kL+nQ*kQ),2)/(4*kB*pow(nB,2)))
+    
+    return nL, nQ, nB, sigma, errSigma
+
+   
 
 # if the maximum of the sigma(cW) is below 3, the corresponding cW value is considered not sensible to BSM data
    
@@ -122,21 +152,21 @@ def GoldenRatioSearch (a, b, err, cW, lossSM, weightsSM, lossLIN, weightsLIN, lo
             a1 = b - r*(b-a)
         
     x_opt = (a + b)/2
-    _,_,f_opt = sigmaFunction(x_opt, cW, lossSM, weightsSM, lossLIN, weightsLIN, lossQUAD, weightsQUAD)
+    sig,bkg,f_opt = sigmaFunction(x_opt, cW, lossSM, weightsSM, lossLIN, weightsLIN, lossQUAD, weightsQUAD)
     
-    return x_opt, f_opt, err 
+    return x_opt, f_opt, sig, bkg 
 
 
 
 ############### uploading losses and weights ###############
 
-lossSM = np.loadtxt("./sm"+str(modelN)+"_dim"+str(DIM)+"_lossSM_split.csv", delimiter=",") #test 
-lossLIN = np.loadtxt("./"+str(op)+str(modelN)+"_dim"+str(DIM)+"_lossLIN_total.csv", delimiter=",")
-lossQUAD = np.loadtxt("./"+str(op)+str(modelN)+"_dim"+str(DIM)+"_lossQUAD_total.csv", delimiter=",")
+lossSM = np.loadtxt("../sm"+str(modelN)+"_dim"+str(DIM)+"_lossSM_split.csv", delimiter=",") #test 
+lossLIN = np.loadtxt("../"+str(op)+str(modelN)+"_dim"+str(DIM)+"_lossLIN_total.csv", delimiter=",")
+lossQUAD = np.loadtxt("../"+str(op)+str(modelN)+"_dim"+str(DIM)+"_lossQUAD_total.csv", delimiter=",")
 
-weightsSM = np.loadtxt("./sm"+str(modelN)+"_dim"+str(DIM)+"_weightsSM_split.csv", delimiter=",") #test
-weightsLIN = np.loadtxt("./"+str(op)+str(modelN)+"_dim"+str(DIM)+"_weightsLIN_total.csv", delimiter=",")
-weightsQUAD = np.loadtxt("./"+str(op)+str(modelN)+"_dim"+str(DIM)+"_weightsQUAD_total.csv", delimiter=",")
+weightsSM = np.loadtxt("../sm"+str(modelN)+"_dim"+str(DIM)+"_weightsSM_split.csv", delimiter=",") #test
+weightsLIN = np.loadtxt("../"+str(op)+str(modelN)+"_dim"+str(DIM)+"_weightsLIN_total.csv", delimiter=",")
+weightsQUAD = np.loadtxt("../"+str(op)+str(modelN)+"_dim"+str(DIM)+"_weightsQUAD_total.csv", delimiter=",")
 
 
 ##################### normalization #########################
@@ -171,6 +201,12 @@ weightsQUAD = weightsQUAD*normQUAD # weights are not yet multiplied by cW*cW
 
 ###################### plotting lf #########################
 
+lossBSM = np.concatenate((lossLIN, lossQUAD), axis=0)
+lossmax = np.amax(lossBSM)
+print  (lossmax)
+
+######################################################
+'''
 wLIN3 = weightsLIN*0.3
 wQUAD3 = weightsQUAD*0.3*0.3
 weightsBSM3 = np.concatenate((wLIN3, wQUAD3), axis=0)
@@ -187,15 +223,14 @@ wLIN9 = weightsLIN*0.9
 wQUAD9 = weightsQUAD*0.9*0.9
 weightsBSM9 = np.concatenate((wLIN9, wQUAD9), axis=0)
 
-lossBSM = np.concatenate((lossLIN, lossQUAD), axis=0)
+
 
 lossALL = np.concatenate((lossSM, lossBSM), axis=0)
 weightsALL1 = np.concatenate((weightsSM, weightsBSM1), axis=0)
 weightsALL3 = np.concatenate((weightsSM, weightsBSM3), axis=0)
 weightsALL5 = np.concatenate((weightsSM, weightsBSM5), axis=0)
 
-lossmax = np.amax(lossBSM)
-print  (lossmax)
+
 
 ax = plt.figure(figsize=(7,5), dpi=100, facecolor="w").add_subplot(111)
 plt.suptitle("loss function: model "+str(modelN)+", dim "+str(DIM)+", operator "+str(op))
@@ -213,9 +248,9 @@ ax.hist(lossBSM,bins=150,range=[0., lossmax],weights=weightsBSM1,histtype="step"
 #ax.set_yscale("log")
 plt.legend(loc=1)
 ax.patch.set_facecolor("w")
-plt.savefig("./lossesFINAL_m"+str(modelN)+"_dim"+str(DIM)+"_"+str(op)+".png", bbox_inches='tight')
+#plt.savefig("./lossesFINAL_m"+str(modelN)+"_dim"+str(DIM)+"_"+str(op)+".png", bbox_inches='tight')
 plt.close()
-
+'''
 
 ################ plotting lfSM with root ####################
 '''
@@ -239,7 +274,7 @@ print("\nRoot integral: ",h.Integral())
 '''
 
 ######################### plots ################################
-
+'''
 cWarr = np.arange(0.1, 1., 0.1)
 np.around(cWarr, 4)
 for i in range((len(cWarr)-1)):
@@ -260,7 +295,7 @@ for i in range((len(cWarr)-1)):
     #ax.set_yscale('log')
     ax.set_xlabel("cut on loss function")
     plt.legend()
-    plt.savefig("./signalandbkg"+str(modelN)+"_dim"+str(DIM)+"_"+str(op)+str(round(cWarr[i],2))+".png", bbox_inches='tight')
+    plt.savefig("./1signalandbkg"+str(modelN)+"_dim"+str(DIM)+"_"+str(op)+str(round(cWarr[i],2))+".png", bbox_inches='tight')
     plt.close()
     
     horizontal_line = np.array([3 for h in range(len(cut))])
@@ -272,46 +307,90 @@ for i in range((len(cWarr)-1)):
     ax.set_xlabel("cut on loss function")
     ax.set_ylabel("S/sqrt(B)")
     plt.plot(cut,horizontal_line,"--",color="r")
-    plt.savefig("./significance"+str(modelN)+"_dim"+str(DIM)+"_"+str(op)+str(round(cWarr[i],2))+".png", bbox_inches='tight')
+    plt.savefig("./1significance"+str(modelN)+"_dim"+str(DIM)+"_"+str(op)+str(round(cWarr[i],2))+".png", bbox_inches='tight')
     plt.close()
-
-################## cW sensibility #############################
 '''
+################## cW sensibility #############################
+print ("computing cW sensibility")
 # cWsensibility (start, stop, step, cWstart, cWstop, cWstep)
 Lns1, Fs1 = cWsensibility(0., 0.04, 0.001, 0., 1., 0.1, lossSM, weightsSM, lossLIN, weightsLIN, lossQUAD, weightsQUAD)
 #print ("loss of sensibility within ", Lns1, " - ", Fs1)
 Lns2, Fs2 = cWsensibility(0., 0.04, 0.001, round(Lns1, 4), round(Fs1, 4), 0.01, lossSM, weightsSM, lossLIN, weightsLIN, lossQUAD, weightsQUAD)
 #print ("loss of sensibility within ", Lns2, " - ", Fs2)
 Lns3, Fs3 = cWsensibility(0., 0.04, 0.001, round(Lns2, 4), round(Fs2, 4), 0.001, lossSM, weightsSM, lossLIN, weightsLIN, lossQUAD, weightsQUAD)
-print ("\nmodel ", modelN, "dim ", DIM)
+print ("\nabs sigma, model ", modelN, "dim ", DIM)
 print ("loss of sensibility within ", Lns3, " - ", Fs3)
 #Lns4, Fs4 = cWsensibility(0., 0.4, 0.1, round(Lns3, 4), round(Fs3, 4), 0.0001, lossSM, weightsSM, lossLIN, weightsLIN, lossQUAD, weightsQUAD)
 #print ("loss of sensibility within ", Lns4, " - ", Fs4)
 
 # Fs3 is the first sensible value, 0.001 step
-'''
+
 ##################################### 
 
+print ("\n\n ghe sem \n\n")
 #cWcomp = np.arange(0.0, 1., 0.005)
 cWcomp = np.arange(0.1, 1., 0.05)
 #print (cWcomp)
 cWcomp = np.around(cWcomp, decimals = 2)
 
-maximum = [] 
+maximum = []
+cutMAX = []
+sigMAX =[]
+bkgMAX = [] 
+nL1MAX =[]
+nQ1MAX = []
+nB1MAX = []
+sigma1MAX = []
+err1MAX = []
+
 
 for i in range(len(cWcomp)):
+    
     sigma,cut,_,_ = sigmaComputation(0., round(lossmax, 2), 0.001, cWcomp[i], lossSM, weightsSM, lossLIN, weightsLIN, lossQUAD, weightsQUAD)
     #print ("\ncW ", cWcomp[i])
-    cutmax, sigmamax, errsigmamax = GoldenRatioSearch(cut[0], cut[len(cut)-1], 0.00001, cWcomp[i], lossSM, weightsSM, lossLIN, weightsLIN, 								lossQUAD, weightsQUAD)
+    cutmax, sigmamax, sig_max, bkg_max = GoldenRatioSearch(cut[0], cut[len(cut)-1], 0.00001, cWcomp[i], lossSM, weightsSM, lossLIN, weightsLIN, lossQUAD, weightsQUAD)
+    
     #print ("maximum sigma value is ", sigmamax, " +- nonperv", "  at cut = ", cutmax)
     maximum.append(sigmamax)
+    cutMAX.append(cutmax)
+    sigMAX.append(sig_max)
+    bkgMAX.append(bkg_max)
+    
+    nL1, nQ1, nB1, sigma1, errSigma1 = sigma_max_err1(cutmax, cWcomp[i], lossSM, weightsSM, normSM, lossLIN, weightsLIN, normLIN, lossQUAD, weightsQUAD, normQUAD)
+    
+    nL1MAX.append(nL1)
+    nQ1MAX.append(nQ1)
+    nB1MAX.append(nB1)
+    sigma1MAX.append(sigma1)
+    err1MAX.append(errSigma1)
+    
+    
     #print ("finito")
 
-print ("\ncut")
+print ("\ncW values are")
 print (cWcomp)
-print ("\nsigma")
+print ("\nsigma, cut, signal, bkg")
 print (maximum)
+print (cutMAX)
+print (sigMAX)
+print (bkgMAX)
 
+print ("\n\nsigma, error, lin, quad, bkg")
+print (sigma1MAX)
+print (err1MAX)
+print (nL1MAX)
+print (nQ1MAX)
+print (nB1MAX)
+
+
+print ("\n\nsigma max and error:")
+for i in range(len(cutMAX)):
+    print (sigma1MAX[i], " +- ", err1MAX[i])
+
+
+
+
+'''
 
 # dim 7
 #loss of sensibility within  0.38  -  0.381
@@ -334,7 +413,6 @@ maximum3 = [0.3019896749595966, 0.6897169069501027, 1.2364047540124168, 1.941483
 #dim 3 
 #max3 =
 
-
 horizontal_line = np.array([3 for h in range(len(cWcomp))])
 ax = plt.figure(figsize=(7,5), dpi=100, facecolor="w").add_subplot(111)
 plt.suptitle("maximum sigma value as a function of "+str(op)+", model "+str(modelN)+", dim "+str(DIM))
@@ -351,9 +429,9 @@ plt.legend(loc=2)
 plt.subplots_adjust(bottom=0.145)
 #plt.yticks(np.arange(0., ., 2.))
 plt.xticks(np.arange(0.1, 1., 0.05), rotation=50)
-plt.savefig("./maximumsigma"+str(modelN)+"_dim"+str(DIM)+"_"+str(op)+".png", bbox_inches='tight')
+plt.savefig("./1maximumsigma"+str(modelN)+"_dim"+str(DIM)+"_"+str(op)+".png", bbox_inches='tight')
 plt.close()
-
+'''
 
    
 print ("done")
