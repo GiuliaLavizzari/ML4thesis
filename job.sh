@@ -7,7 +7,7 @@ echo "done with SM"
 
 for oper in $stringOP; do
     python lossperbatchBSM.py 1 7 $oper
-    python finalBSM.py 1 7 $oper > output${oper}_m1_d7.txt
+    python finalBSM1.py 1 7 $oper > output${oper}_m1_d7.txt
     echo "done with $oper"
 done  
     
