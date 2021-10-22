@@ -111,7 +111,7 @@ sn.heatmap(All_corrM, annot=True)
 ```
 
 ## Input/ouput variables, latent variables
-[myPlots.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/main/myPlots.py)
+[myPlots.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/main/myPlots.py)  
 Plots input vs output distributions, the difference between input and output values (both for SM and BSM distributions), and the latent variables.  
 The data belonging to the SM sample are split and scaled just as before the training. The splitting must be the same of the training in order to run the trained model on different data than those used for the training. For the sake of consistency, the same scaling factor computed during the training has to be applied to all the samples on which the model is tested.
 ```python
@@ -121,6 +121,18 @@ t.fit(X_train) # fit on the training dataset
 X_train = t.transform(X_train) 
 X_test = t.transform(X_test)
 All_test = t.transform(All_test) # contains X_test, LIN and QUAD
+```
+
+In order to plot the output variables the trained model has to be loaded and used to predict the outputs:
+```python
+vae = tf.keras.models.load_model(model_name) # loading the VAE model
+out = vae.predict(All_test) # all data
+out_SM = vae.predict(X_test) # only SM (test set)
+```
+The same happens for the latent variables:
+```python
+enc = tf.keras.models.load_model(encname) # loading the encoder
+latentALL = enc.predict(All_test)
 ```
 
 
