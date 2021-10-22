@@ -75,6 +75,4 @@ tf.keras.models.save_model(encoder, enc_name)
 tf.keras.models.save_model(vae, vae_name)
 np.savetxt(csv_name, hist.history["loss"], delimiter=',')
 
-print ("fino alla fine")
-
-
+print ("end")
