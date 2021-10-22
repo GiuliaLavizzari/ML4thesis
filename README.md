@@ -95,11 +95,13 @@ np.savetxt(csv_name, hist.history["loss"], delimiter=',')
 [plotCorrelationMatrix.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/37b776ca48e7d9a03df717210364f3f3f63dffee/plotCorrelationMatrix.py)  
 Plots the correlation matrix considering all the samples (SM, LIN, QUAD).  
 A column labelled "sample" has been added to the dataframe containing the data: the value of the "sample" variable is set as 0 for the events belonging to the SM sample, 1 for LIN and 2 for QUAD. This allows for checking the correlation between each variable and the three samples.
+Adding the "Sample" column:
 ```python
 BSM_quad["Sample"] = 2 #adds a column ('sample') with value 2
 BSM_lin["Sample"] = 1
 SM["Sample"] = 0
 ```
+Plotting the matrix:
 ```python
 #concatenating dataframes and plotting correlation matrix with seaborn
 All = pd.concat([SM,BSM_quad,BSM_lin], keys=["S","Q","L"])
