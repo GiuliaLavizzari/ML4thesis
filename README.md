@@ -1,4 +1,6 @@
-<font size="10">STILL WORKING ON IT</font> 
+% STILL WORKING ON IT
+**still working on it**
+*still working on it*
   
     
 http://github.com - automatic!
