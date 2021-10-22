@@ -2,10 +2,8 @@
 http://github.com - automatic!
 [caccola](http://github.com)
 
-```javascript
-function fancyAlert(arg) {
-  if(arg) {
-    $.facebox({div:'#foo'})
-  }
-}
+```python
+print ("hello world")
+for i in len(ciaone)
+    ciaone = ciaone + 1
 ```
