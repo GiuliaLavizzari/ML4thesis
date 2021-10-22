@@ -134,4 +134,4 @@ class LatentSpace(tf.keras.Model):
     def call(self, inputs):
         z_mean, z_log_var, z = self.encoder(inputs)
         return z
-        
+   
