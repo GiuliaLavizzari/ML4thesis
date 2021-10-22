@@ -22,7 +22,7 @@ More information on the model can be found at this link: [kerasVAE](https://kera
 # training the model
 [training.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/959a2c89113660b455d04cb86396b2c440d45285/training.py)
 Trains the model and saves the encoder and the VAE model, together with a .csv file containing the values of the losses per epoch.  
-More specifically:  
+Dimension of the latent space, number of epochs, batch size and learning rate of the optimizer can be modified here.
 
 Importing the model:
 ```python
@@ -94,13 +94,7 @@ np.savetxt(csv_name, hist.history["loss"], delimiter=',')
 
 
 
-tr1.py
-https://github.com/GiuliaLavizzari/ML4thesis/blob/6b18dfc6d8ba09b1288ed3d83d6402d7b31c76fa/tr1.py
-training
-The saved model is characterized by two (main) numbers: 
-modelN = defining what version of the model I’m testing
-DIM = dimension of the latent space (taken as an input: DIM = argv[1]).
-These two numbers often serve as inputs of the various scripts used for the analysis
+
 
 plotCorrelationMatrix.py
 https://github.com/GiuliaLavizzari/ML4thesis/blob/6b18dfc6d8ba09b1288ed3d83d6402d7b31c76fa/plotCorrelationMatrix.py
