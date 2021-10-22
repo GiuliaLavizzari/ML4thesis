@@ -12,14 +12,32 @@ for i in len(ciaone)
 
 Quick overview of the scripts in this repo. More detailed information is given in the additional COMMENTS/COMMITS of each of them.
 
-[VAEmodel.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/959a2c89113660b455d04cb86396b2c440d45285/VAEmodel.py)
-the VAE model used.  
-The structure of this model is shown in the following figure:
+[VAEmodel.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/959a2c89113660b455d04cb86396b2c440d45285/VAEmodel.py)  
+The VAE model used. The structure of this model is shown in the following figure:
 ![Alt Text](https://github.com/GiuliaLavizzari/ML4thesis/blob/5aa6ab696a6b371c9d9f320aad6a5e7f4d0822b8/vaemodel.PNG)
-For more information on the structure of the model, see \{keras vae}
+More information on the model can be found at this link: [kerasVAE](https://keras.io/examples/generative/vae/).   
+
 
 [training.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/959a2c89113660b455d04cb86396b2c440d45285/training.py)
-Trains the model and saves the encoder and the VAE model, together with a .csv file containing the values of the losses per epoch.
+Trains the model and saves the encoder and the VAE model, together with a .csv file containing the values of the losses per epoch.  
+More specifically:  
+Importing the model:
+```python
+from VAEmodel import * # imports the chosen model
+MODEL = 1 # name of the model
+```
+```python
+# storing the input data by choosing the variables of interest among the ones stored in the ntuple
+pd_variables = ['deltaetajj', 'deltaphijj', 'etaj1', 'etaj2', 'etal1', 'etal2',
+       'met', 'mjj', 'mll',  'ptj1', 'ptj2', 'ptl1',
+       'ptl2', 'ptll']#,'phij1', 'phij2', 'w']
+dfAll = ROOT.RDataFrame("SSWW_SM","/gwpool/users/glavizzari/Downloads/ntuple_SSWW_SM.root")
+df = dfAll.Filter("ptj1 > 30 && ptj2 >30 && deltaetajj>2 && mjj>200")
+npy = df.AsNumpy(pd_variables)
+# storing the weights of the events
+wSM = df.AsNumpy("w")
+```
+
 
 tr1.py
 https://github.com/GiuliaLavizzari/ML4thesis/blob/6b18dfc6d8ba09b1288ed3d83d6402d7b31c76fa/tr1.py
