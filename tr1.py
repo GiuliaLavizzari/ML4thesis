@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 
 #taking the model
-from newVAE1 import *
+from finalVAE1 import *
 MODEL = 1
 
 #ROOT.ROOT.EnableImplicitMT()
