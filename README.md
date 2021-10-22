@@ -1,16 +1,9 @@
 
 **still working on it**  
 *still working on it*
-  
 
+The ntuples used can be found [here](https://drive.google.com/drive/folders/1u2WdaWjtUwz9sqsxtInMSyuErn36t8CD?usp=sharing).
 
-```python
-print ("hello world")
-for i in len(ciaone)
-    ciaone = ciaone + 1
-```
-
-Quick overview of the scripts in this repo. More detailed information is given in the additional COMMENTS/COMMITS of each of them.
 # VAE model
 [VAEmodel.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/959a2c89113660b455d04cb86396b2c440d45285/VAEmodel.py)  
 The VAE model used. The structure of this model is shown in the following figure:
