@@ -2,7 +2,7 @@
 **still working on it**  
 *still working on it*
 
-The ntuples used can be found [here](https://drive.google.com/drive/folders/1u2WdaWjtUwz9sqsxtInMSyuErn36t8CD?usp=sharing).
+The ntuples used can be found
 
 # VAE model
 [VAEmodel.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/959a2c89113660b455d04cb86396b2c440d45285/VAEmodel.py)  
