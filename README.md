@@ -1,4 +1,4 @@
-% STILL WORKING ON IT  
+
 # header 1  
 **still working on it**  
 *still working on it*
