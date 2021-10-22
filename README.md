@@ -63,13 +63,13 @@ t.fit(X_train)
 X_train = t.transform(X_train)
 X_test = t.transform(X_test)
 ```
-Setting the parameters of the model
+Setting the parameters of the model:
 ```python
 DIM = sys.argv[1] #latent dimension
 BATCH = 32 #batch size
 EPOCHS = 200 #number of epochs
 ```
-Training the model
+Training the model:
 ```python
 # whole model
 vae = VariationalAutoEncoder(original_dim, DIM) # (self, original, latent)
