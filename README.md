@@ -91,14 +91,11 @@ tf.keras.models.save_model(vae, vae_name)
 np.savetxt(csv_name, hist.history["loss"], delimiter=',')
 ```
 
+# Useful plots
 
+## correlation matrix
+[plotCorrelationMatrix.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/37b776ca48e7d9a03df717210364f3f3f63dffee/plotCorrelationMatrix.py)
 
-
-
-
-plotCorrelationMatrix.py
-https://github.com/GiuliaLavizzari/ML4thesis/blob/6b18dfc6d8ba09b1288ed3d83d6402d7b31c76fa/plotCorrelationMatrix.py
-plots correlation matrix
 
 myPlots.py
 https://github.com/GiuliaLavizzari/ML4thesis/blob/e0327246bc1dca059d2317e9e5687bde6a233e19/myPlots.py
