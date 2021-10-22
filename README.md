@@ -12,8 +12,8 @@ Quick overview of the scripts in this repo. More detailed information is given i
 
 [VAEmodel.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/959a2c89113660b455d04cb86396b2c440d45285/VAEmodel.py)
 the VAE model used. The structure of this model is shown in the following figure:
-![VAEmodel](vaemodel.png)
-Format: ![Alt Text](url)
+![plot](./vaemodel.png)
+![Alt Text](https://github.com/GiuliaLavizzari/ML4thesis/blob/5aa6ab696a6b371c9d9f320aad6a5e7f4d0822b8/vaemodel.PNG)
 For more information on the structure of the model, see \{keras vae}
 
 [training.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/959a2c89113660b455d04cb86396b2c440d45285/training.py)
