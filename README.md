@@ -18,7 +18,7 @@ The VAE model used. The structure of this model is shown in the following figure
 More information on the model can be found at this link: [kerasVAE](https://keras.io/examples/generative/vae/).   
 
 # training the model
-[training.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/959a2c89113660b455d04cb86396b2c440d45285/training.py)
+[training.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/959a2c89113660b455d04cb86396b2c440d45285/training.py)  
 Trains the model and saves the encoder and the VAE model, together with a .csv file containing the values of the losses per epoch.  
 Dimension of the latent space, number of epochs, batch size and learning rate of the optimizer can be modified here.
 
@@ -92,7 +92,7 @@ np.savetxt(csv_name, hist.history["loss"], delimiter=',')
 # Useful plots
 
 ## correlation matrix
-[plotCorrelationMatrix.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/37b776ca48e7d9a03df717210364f3f3f63dffee/plotCorrelationMatrix.py)
+[plotCorrelationMatrix.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/37b776ca48e7d9a03df717210364f3f3f63dffee/plotCorrelationMatrix.py)  
 Plots the correlation matrix considering all the samples (SM, LIN, QUAD).  
 A column labelled "sample" has been added to the dataframe containing the data: the value of the "sample" variable is set as 0 for the events belonging to the SM sample, 1 for LIN and 2 for QUAD. This allows for checking the correlation between each variable and the three samples.
 ```python
@@ -108,10 +108,20 @@ import seaborn as sn
 sn.heatmap(All_corrM, annot=True)
 ```
 
+## Input/ouput variables, latent variables
+[myPlots.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/main/myPlots.py)
+Plots input vs output distributions, the difference between input and output values (both for SM and BSM distributions), and the latent variables.  
+The data belonging to the SM sample are split and scaled just as before the training. The splitting must be the same of the training in order to run the trained model on different data than those used for the training. For the sake of consistency, the same scaling factor computed during the training has to be applied to all the samples on which the model is tested.
+```python
+t = MinMaxScaler()
+t.fit(X_train) # fit on the training dataset
+# this very same scaling factor is then applied to all the datasets
+X_train = t.transform(X_train) 
+X_test = t.transform(X_test)
+All_test = t.transform(All_test) # contains X_test, LIN and QUAD
+```
 
-myPlots.py
-https://github.com/GiuliaLavizzari/ML4thesis/blob/e0327246bc1dca059d2317e9e5687bde6a233e19/myPlots.py
-Plots in/out distributions, differences between input and output, latent vars (similar to the aforementioned plotCombinedSamples)
+
 
 plotROC.py
 https://github.com/GiuliaLavizzari/ML4thesis/blob/e0327246bc1dca059d2317e9e5687bde6a233e19/plotROC.py
