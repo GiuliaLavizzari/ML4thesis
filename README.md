@@ -38,10 +38,11 @@ pd_variables = ['deltaetajj', 'deltaphijj', 'etaj1', 'etaj2', 'etal1', 'etal2',
 dfAll = ROOT.RDataFrame("SSWW_SM","/gwpool/users/glavizzari/Downloads/ntuple_SSWW_SM.root")
 df = dfAll.Filter("ptj1 > 30 && ptj2 >30 && deltaetajj>2 && mjj>200")
 npy = df.AsNumpy(pd_variables)
-npd = npd.head(nEntries)
+npd =pd.DataFrame.from_dict(npy)
 
 # storing the weights of the events
 wSM = df.AsNumpy("w")
+wpdSM = pd.DataFrame.from_dict(wSM)
 ```
 Splitting the data:
 ```python
