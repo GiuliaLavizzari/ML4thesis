@@ -151,22 +151,6 @@ The roc curve is given by the plot of the BSM efficiency versus SM efficiency; t
 This script performs the complete BSM analysis: indeed, it computes the loss for the SM events ([lossperbatch.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/e0327246bc1dca059d2317e9e5687bde6a233e19/lossperbatch.py)) and for the BSM events ([lossperbathBSM.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/e0327246bc1dca059d2317e9e5687bde6a233e19/lossperbatchBSM.py)) and subsequently ([finalBSM1.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/7561a4df91d9811d7b0f19b91b7a710a7a3fe6f0/finalBSM1.py))computes the significance sigma as the number of EFT events (LIN+QUAD) divided by the square root of the number of SM events.
 
 
-job.sh
-https://github.com/GiuliaLavizzari/ML4thesis/blob/3a61990021a893f2ebd88d5bdae61e7320a9e43e/job.sh
-Complete BSM analysis: calls lossperbatch.py, lossperbatchBSM.py, finalBSM1.py
-
-lossperbatch.py
-https://github.com/GiuliaLavizzari/ML4thesis/blob/e0327246bc1dca059d2317e9e5687bde6a233e19/lossperbatch.py
-Computes and saves as .csv the loss and the weights for each event of the SM sample
-(input: modelN = number of the model that needs to be tested, dim = dimension of the latent space of the chosen model)
-(output: lossSM, weightsSM)
-
-lossperbatchBSM.py
-https://github.com/GiuliaLavizzari/ML4thesis/blob/e0327246bc1dca059d2317e9e5687bde6a233e19/lossperbatchBSM.py
-Computes and saves as .csv the loss and the weights for each event of the LIN and QUAD samples, separately
-(input: modelN, dim, operator)
-(output: lossLIN, weightsLIN, lossQUAD, weightsQUAD)
-
 finalBSM1.py
 https://github.com/GiuliaLavizzari/ML4thesis/blob/e13f1bb5fd3a2f041d40d61fa3648e21d9e7d28a/finalBSM1.py
 → computes sigma and its error
@@ -175,11 +159,3 @@ https://github.com/GiuliaLavizzari/ML4thesis/blob/e13f1bb5fd3a2f041d40d61fa3648e
 → computes the minimum value of c_{op} for which the analysis is sensitive to the EFT operator (314-326)
 → plots sigma(k) (277-311) and sigmaMAX(cW) (332-435)
 (input: modelN, dim, operator, lossSM, lossLIN, lossQUAD, weightsSM, weightsLIN, weightsQUAD)
-
-
-
-For a quick use:
-→ Train the model with tr1.py
-→ Use myPlots.py to see the input/output distributions and the latent space. It also computes the loss function for each event
-→ run job1.sh to get the full BSM analysis
-
