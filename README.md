@@ -131,7 +131,7 @@ latentALL = enc.predict(All_test)
 
 ## ROC curves
 [plotROC.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/5bb127d8f3484f1ad6b16a71fe44c395a57a308d/plotROC.py)  
-Computes the SM and BSM efficiency:
+Computes the SM and BSM efficiency as follows:
 * effSM = sumWSM*/sumWSM  
 where:  
 sumWSM = sum of the weights of all the SM events  
@@ -141,6 +141,8 @@ sumWSM* = sum of the weights of the SM events whose loss exceeds a chosen thresh
 where:  
 sumWBSM = sum of the weights of all the BSM=SM+EFT events  
 sumWBSM* = sum of the weights of the BSM=SM+EFT events whose loss exceeds a chosen threshold value (cut)  
+
+The roc curve is given by the plot of the BSM efficiency versus SM efficiency; the AUC value is also computed.
 
 
 
