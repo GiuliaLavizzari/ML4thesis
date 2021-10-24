@@ -145,10 +145,10 @@ sumWBSM* = sum of the weights of the BSM=SM+EFT events whose loss exceeds a chos
 The roc curve is given by the plot of the BSM efficiency versus SM efficiency; the AUC value is also computed.
 
 
+# BSM analysis
 
-plotROC.py
-https://github.com/GiuliaLavizzari/ML4thesis/blob/e0327246bc1dca059d2317e9e5687bde6a233e19/plotROC.py
-Plots SM efficiency vs BSM efficiency, just as the aforementioned lossCutROC. In addition, it computes the AUC value.
+[job.sh](https://github.com/GiuliaLavizzari/ML4thesis/blob/7561a4df91d9811d7b0f19b91b7a710a7a3fe6f0/job.sh)  
+This script performs the complete BSM analysis: indeed, it computes the loss for the SM events ([lossperbatch.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/e0327246bc1dca059d2317e9e5687bde6a233e19/lossperbatch.py)) and for the BSM events ([lossperbathBSM.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/e0327246bc1dca059d2317e9e5687bde6a233e19/lossperbatchBSM.py)) and subsequently ([finalBSM1.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/7561a4df91d9811d7b0f19b91b7a710a7a3fe6f0/finalBSM1.py))computes the significance sigma as the number of EFT events (LIN+QUAD) divided by the square root of the number of SM events.
 
 
 job.sh
