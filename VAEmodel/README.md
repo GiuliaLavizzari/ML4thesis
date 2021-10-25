@@ -1,11 +1,11 @@
 # Training the model
 
-# [VAEmodel.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/959a2c89113660b455d04cb86396b2c440d45285/VAEmodel.py)  
+## [VAEmodel.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/959a2c89113660b455d04cb86396b2c440d45285/VAEmodel.py)  
 The VAE model used. The structure of this model is shown in the following figure:
 ![Alt Text](https://github.com/GiuliaLavizzari/ML4thesis/blob/5aa6ab696a6b371c9d9f320aad6a5e7f4d0822b8/vaemodel.PNG)
 More information on the model can be found at this link: [kerasVAE](https://keras.io/examples/generative/vae/).   
 
-# [training.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/959a2c89113660b455d04cb86396b2c440d45285/training.py)  
+## [training.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/959a2c89113660b455d04cb86396b2c440d45285/training.py)  
 Trains the model and saves the encoder and the VAE model, together with a .csv file containing the values of the losses per epoch.  
 Dimension of the latent space, number of epochs, batch size and learning rate of the optimizer can be modified here.
 
