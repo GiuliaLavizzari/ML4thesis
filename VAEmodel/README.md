@@ -75,3 +75,9 @@ tf.keras.models.save_model(encoder, enc_name)
 tf.keras.models.save_model(vae, vae_name)
 np.savetxt(csv_name, hist.history["loss"], delimiter=',')
 ```
+
+## [trainLosses.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/0ce93379f5cda769863e494969bb69e09575cbd9/VAEmodel/trainLosses.py)
+This script allows for saving the values of the MSE (reconstruction loss), the KLD (regularization term) and the total loss (MSE+KLD) computed during the training as a function of the number of epochs. Note that in order to have access to the KLD and MSE values the model has to be set in a different way with respect to the one previously described. The used model is in fact the following:
+
+## [model4Losses.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/7eb1d4ae0b6f06603dd7118ed5753fffa2181d5c/VAEmodel/model4Losses.py)
+This model allows for keeping track of the value of the losses during the training. 
