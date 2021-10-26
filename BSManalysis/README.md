@@ -1,7 +1,6 @@
 # BSM analysis
 ## [job.sh](https://github.com/GiuliaLavizzari/ML4thesis/blob/7561a4df91d9811d7b0f19b91b7a710a7a3fe6f0/job.sh)  
 This script performs the complete BSM analysis: indeed, it computes the losses and weights for the SM events ([lossperbatch.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/e0327246bc1dca059d2317e9e5687bde6a233e19/lossperbatch.py)) and for the BSM events ([lossperbathBSM.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/e0327246bc1dca059d2317e9e5687bde6a233e19/lossperbatchBSM.py)). Those values of the loss are the ones used to single out EFT events: a threshold value is chosen and the events whose loss is greater than this threshold are selected.  
-The saved EFT weights are yet to be multiplied by cW or cW^2.
 
 ## [lossperbatch.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/32ea0867d4b0001347ba41e03769d39a5203e16c/BSManalysis/lossperbatch.py)
 This script retrieves the value of the total loss for each event:
@@ -14,6 +13,7 @@ class LossPerBatch(tf.keras.callbacks.Callback):
 mylosses = LossPerBatch()
 vae.evaluate(X_test,X_test,batch_size=1,callbacks=[mylosses],verbose=0) #by setting the batch_size=1 it's possible to retrieve the loss for each event
 ```
+Subsequently, the losses and weights are saved. The saved EFT weights are yet to be multiplied by cW or cW^2.  
 The same happens for [lossperbathBSM.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/e0327246bc1dca059d2317e9e5687bde6a233e19/lossperbatchBSM.py).
 
 
