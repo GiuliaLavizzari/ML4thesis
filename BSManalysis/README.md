@@ -35,3 +35,4 @@ The significance sigma is computed as the number of EFT (LIN + QUAD) events whos
 The error on sigma due to the fluctuations of the number of events in the Monte Carlo samples is also computed.  
 
 It's also possible to compute the minimum value of the wilson coefficient for which the analysis is sensitive to the EFT operator (where sensitivity is defined as having at least one value of sigma>3).
+
