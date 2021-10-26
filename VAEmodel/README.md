@@ -76,8 +76,17 @@ tf.keras.models.save_model(vae, vae_name)
 np.savetxt(csv_name, hist.history["loss"], delimiter=',')
 ```
 
+## [crossvalidation.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/0730191d4352be9f474aa0d57d53e204286cca33/VAEmodel/crossvalidation.py)
+This script uses kfold to compute the error on the MSE value over the test SM sample due to the variations of the sample itself. The model is trained and tested on different subsets of the SM sample, and each time the value of the MSE is computed. The standard deviation of those values is then computed.  
+The number of splits chosen for the Kfold mirrors the fraction of the events chosen for the splitting in train and test set.
+```python
+k = 5
+kf = KFold(n_splits=k, shuffle=False)
+```
+
 ## [trainLosses.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/0ce93379f5cda769863e494969bb69e09575cbd9/VAEmodel/trainLosses.py)
 This script allows for saving the values of the MSE (reconstruction loss), the KLD (regularization term) and the total loss (MSE+KLD) computed during the training as a function of the number of epochs. Note that in order to have access to the KLD and MSE values the model has to be set in a different way with respect to the one previously described. The used model is in fact the following:
 
 ## [model4Losses.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/7eb1d4ae0b6f06603dd7118ed5753fffa2181d5c/VAEmodel/model4Losses.py)
 This model allows for keeping track of the value of the losses during the training. 
+
