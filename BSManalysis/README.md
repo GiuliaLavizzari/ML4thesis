@@ -19,6 +19,7 @@ The same happens for [lossperbathBSM.py](https://github.com/GiuliaLavizzari/ML4t
 
 ## [finalBSM1.py](https://github.com/GiuliaLavizzari/ML4thesis/blob/7561a4df91d9811d7b0f19b91b7a710a7a3fe6f0/finalBSM1.py).  
 Computes the significance sigma as the number of EFT (LIN + QUAD) events whose loss is bigger than the selected threshold, divided by the square root of the number of SM events above the same threshold. This is the chosen figure of merit to compare the sensitivity of different VAE models to a particular operator.  
+The error on sigma due to the fluctuations of the number of events in the Monte Carlo samples is also computed.  
 The correct normalization of the events is given by the following factor, that is to be multiplied to the weights of the events (together with the cW and cW^2 coefficients in the cases of the EFT events)
 ```python
 # example of normalization: SM sample
@@ -29,4 +30,4 @@ xsecSM = hSM.GetBinContent(1)
 sumwSM = hSM.GetBinContent(2)
 normSM = 5.* xsecSM * luminosity / (sumwSM) # on test set (0.2*total)
 ```
-It's also possible to compute the minimum value of the wilson coefficient for which the analysis is sensitive to the EFT operator to which the coefficient is associated.
+It's also possible to compute the minimum value of the wilson coefficient for which the analysis is sensitive to the EFT operator (where sensitivity is defined as having at least one value of sigma>3).
