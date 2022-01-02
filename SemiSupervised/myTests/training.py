@@ -11,7 +11,7 @@ from tensorflow.keras import layers
 
 #taking the model
 #from VAE_model_extended_moreDKL import *
-from VAE_testDK_Reco_Loss import *
+from VAE_semisupervised import *
 KIND = "A"
 # A = latent space
 # B = loss 1D (Reco)
@@ -128,6 +128,7 @@ ax.hist(output_BSM,bins=bins, density=1,range=[0.,1.],histtype="step",color="blu
 plt.rc('legend',fontsize='small')    
 plt.show()
 
+print (hist.history)
 
 x_bins = range(len(hist.history["loss"]))
 ax = plt.figure(figsize=(7,5), dpi=100, facecolor="w").add_subplot(111)
