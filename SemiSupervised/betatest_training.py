@@ -30,9 +30,9 @@ pd_variables = ['deltaetajj', 'deltaphijj', 'etaj1', 'etaj2', 'etal1', 'etal2',
        'met', 'mjj', 'mll',  'ptj1', 'ptj2', 'ptl1',
        'ptl2', 'ptll']#,'phij1', 'phij2', 'w']
 kinematicFilter = "ptj1 > 30 && ptj2 >30 && deltaetajj>2 && mjj>200"
-dfSM = ROOT.RDataFrame("SSWW_SM","../ntuplesBSM/ntuple_SSWW_SM.root")
+dfSM = ROOT.RDataFrame("SSWW_SM","/home/giulialavizzari/Downloads/ntuples/ntuple_SSWW_SM.root")
 dfSM = dfSM.Filter(kinematicFilter)
-dfBSM = ROOT.RDataFrame("SSWW_"+str(op)+"_"+str(term),"../ntuplesBSM/ntuple_SSWW_"+str(op)+"_"+str(term)+".root")
+dfBSM = ROOT.RDataFrame("SSWW_"+str(op)+"_"+str(term),"/home/giulialavizzari/Downloads/ntuples/ntuple_SSWW_"+str(op)+"_"+str(term)+".root")
 dfBSM = dfBSM.Filter(kinematicFilter)
 
 np_SM = dfSM.AsNumpy(pd_variables)
@@ -45,7 +45,7 @@ wBSM = dfBSM.AsNumpy("w")
 npd_BSM =pd.DataFrame.from_dict(np_BSM)
 wpdBSM = pd.DataFrame.from_dict(wBSM)
 
-nEntries = 300000
+nEntries = 300#000
 npd = npd.head(nEntries)
 npd_BSM = npd_BSM.head(nEntries)
 wpdSM = wpdSM.head(nEntries)
@@ -85,7 +85,7 @@ intermediate_dim = 20 #50 by default
 input_dim = 10 #was 20 in default
 half_input = 7 #was 20 in the newTest
 latent_dim = 3 #was 3 for optimal performance
-epochs = 200 #100
+epochs = 2#00 #100
 batchsize=64 #32
 nameExtenstion = str(op)+"_beta"+str(beta)+"_"+str(intermediate_dim)+"_"+str(input_dim)+"_"+str(half_input)+"_"+str(latent_dim)+"_"+str(epochs)+"_"+str(batchsize)
 vae = VariationalAutoEncoder(original_dim,beta,intermediate_dim,input_dim,half_input,latent_dim)  
